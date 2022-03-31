@@ -7,8 +7,7 @@ import math
 import configparser
 
 
-def price_change(driver, admin_panel, email, password, coeff):
-
+def admin_auth(admin_panel, email, password):
     # Переход на страницу авторизации
     driver.get(admin_panel)
 
@@ -31,6 +30,13 @@ def price_change(driver, admin_panel, email, password, coeff):
     password_input.submit()
 
     sleep(1)
+
+
+def price_change(driver, admin_panel, email, password, coeff):
+
+    # авторизация в админ панеле
+    admin_auth(admin_panel, email, password)
+
     # Загрузка информации
     ex_data = pd.read_excel('Price.xlsx')
 
@@ -106,6 +112,8 @@ if __name__ == '__main__':
     chrome_options.add_argument("--disable-extensions")
     driver = webdriver.Chrome(chrome_options=chrome_options,
                               executable_path=r"/chromedriver98.exe")
+
+
 
     price_change(driver=driver, admin_panel=config["site_1"]["admin_panel"], email=config["site_1"]["email"],
                  password=config["site_1"]["password"], coeff=config["site_1"]["coeff"])
